@@ -30,6 +30,11 @@ jobs:
           echo "The repository ${{ github.repository }} contains the following files:"
           tree
 
+      - name: Test Repository Secret
+        env: 
+          API_KEY: ${{ secrets.REPO_API_KEY }}
+        run: echo Repository Secret "$API_KEY"
+
   Test:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
@@ -56,6 +61,10 @@ jobs:
       url: https://writeabout.net
     if: github.event.inputs.environment == 'Production'
     steps:
+      - name: Test Prod Env Secret
+        env:
+          DEPLOY_TOKEN: ${{ secrets.PROD_DEPLOY_TOKEN }}
+        run: echo  "$DEPLOY_TOKEN"
       - run: |
           echo "🚀 Step 1..."
           sleep 10
